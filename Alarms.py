@@ -2,7 +2,7 @@
 import time
 import psutil
 #import winsound  # Works on Windows only
-#import Funktions
+import Funktions
 
 
 
@@ -16,10 +16,10 @@ alarms = {
     "disk": None 
 }
 
-def create_alarm(func): # Jag kallar på func variabeln för att 
+def create_alarm():
     global alarms
     while True:
-        print("\n--- Create Alarm ---")
+        print("--- CREATE ALARM ---")
         print("1. CPU usage")
         print("2. Memory usage")
         print("3. Disk usage")
@@ -32,7 +32,7 @@ def create_alarm(func): # Jag kallar på func variabeln för att
             hardware = hardware_map[choice]
 
             while True:
-                func.console_clean()  # <-- use module.func
+                Funktions.console_clean()  # Rensar terminal
                 level = input(f"Set a level for alarm ({hardware}) mellan 1-100: ")
                 if level.isdigit() and 1 <= int(level) <= 100:
                     alarms[hardware] = f"{level}%"
@@ -40,7 +40,7 @@ def create_alarm(func): # Jag kallar på func variabeln för att
                     break
                 else:
                     print("Wrong input, please enter a number between 1 and 100.")
-            func.console_clean()
+            Funktions.console_clean()
             continue
 
         elif choice == "4":
@@ -51,8 +51,7 @@ def create_alarm(func): # Jag kallar på func variabeln för att
             print("Invalid choice, please try again.")
 
 def show_alarms():
-    """Prints the configured alarms."""
-    print("\n--- Configured Alarms ---")
+    print("--- SHOWING ALARMS ---")
     has_alarms = False
     for hardware, level in alarms.items():
         if level:

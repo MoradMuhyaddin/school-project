@@ -8,13 +8,13 @@ func = Funktions.Class_funktions()
 
 def main():
     
-    monitoring = True
+    app_is_running = True
 
-    while monitoring:
+    while app_is_running:
 
         valid_choice = False
         while not valid_choice:
-            func.console_clean()
+            Funktions.console_clean()
             func.menu_choice()
             choice = input("Choose between (1-6): ")
             match choice:
@@ -26,14 +26,17 @@ def main():
                     input("Press Enter to continue...")
                     valid_choice = True
                 case "3":
-                    Alarms.create_alarm(func)
+                    Alarms.create_alarm() # Kallar på create_alarm funktionen i Alarm.py filen
                     input("Press Enter to continue...")
                     valid_choice = True
                 case "4":
-                    Alarms.show_alarms()
+                    Alarms.show_alarms() # Kallar på show_alarm funktionen i Alarm.py filen
                     input("Press Enter to continue...")
                     valid_choice = True
-
-
+                case "5":
+                    pass
+                
+                case "6":
+                    quit()
 
 main()
