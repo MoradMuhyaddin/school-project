@@ -2,9 +2,9 @@ import time
 import psutil
 import os
 #import winsound  # Works on Windows only
-import Funktions
+
 import Alarms
-func = Funktions.Class_funktions()
+from Funktions import *
 
 def main():
     
@@ -14,7 +14,7 @@ def main():
 
         valid_choice = False
         while not valid_choice:
-            Funktions.console_clean() 
+            func.console_clean() 
             # Kallar console_clean från Funktions.py
             func.menu_choices() 
             # Kallar på menyn från Class_funktions klassen
@@ -23,6 +23,7 @@ def main():
                 case "1":
                     func.start_monitoring()
                     valid_choice = True
+                    input("Press Enter to continue...")
                 case "2":
                     func.show_last_stats()
                     input("Press Enter to continue...")
@@ -37,7 +38,8 @@ def main():
                     input("Press Enter to continue...")
                     valid_choice = True
                 case "5":
-                    pass
+                    Alarms.start_monitoring_alarms()
+                    valid_choice = True
                 
                 case "6":
                     quit()

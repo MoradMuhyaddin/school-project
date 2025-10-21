@@ -1,6 +1,7 @@
 import os
 import psutil
 import time
+
 class Class_funktions:
     def __init__(self):
             self.cpu = 0 # Skapar tom låda för CPU användning
@@ -17,21 +18,26 @@ class Class_funktions:
         print("6. Exit")
     
     def start_monitoring(self):
-        console_clean()
+        func.console_clean()
         self.cpu = psutil.cpu_percent() # Mäter cpu användning
         self.memory = psutil.virtual_memory().percent # Mäter minne användning i procent
         self.disk = psutil.disk_usage('/').percent # Mäter disk använding i procent
         print(f"---START MONITORING---")
         time.sleep(2) # Programmet pausas i 2 sekunder innan den går tillbaks till menyn
+        print(f"CPU: {self.cpu}%")
+        print(f"Memory: {self.memory}%")
+        print(f"Disk: {self.disk}%")
     
     def show_last_stats(self):
-        console_clean()
+        func.console_clean()
         print("--- Last Measured Stats ---")
         print(f"CPU Usage: {self.cpu}%") 
         print(f"Memory Usage: {self.memory}%")
         print(f"Disk Usage: {self.disk}%")
 
 
-def console_clean():
-    # Rensar konsollen  
-    os.system('cls' if os.name=='nt' else 'clear')
+    def console_clean(self):
+        # Rensar konsollen  
+        os.system('cls' if os.name=='nt' else 'clear')
+
+func = Class_funktions()
