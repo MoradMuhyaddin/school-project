@@ -1,16 +1,16 @@
-import os # Rensar skärmen efter input
-import psutil # Hämtar 
+import os
+import psutil
 import time
-class SystemMonitor:
+class Class_funktions:
     def __init__(self):
             self.cpu = 0 # Skapar tom låda för CPU användning
             self.memory = 0 # Skapar tom låda för ram användning
             self.disk = 0 # Skapar tom låda för disk användning
 
 
-    def menu_choice(self):
+    def menu_choices(self):
         print("1. Start monitoring")
-        print("2. List of active alarms")
+        print("2. Show last measured stats")
         print("3. Create alarm")
         print("4. Show alarm")
         print("5. Start monitoring alarms")
@@ -18,20 +18,20 @@ class SystemMonitor:
     
     def start_monitoring(self):
         console_clean()
-        self.cpu = psutil.cpu_percent(interval=1)
-        self.memory = psutil.virtual_memory().percent
-        self.disk = psutil.disk_usage('/').percent
+        self.cpu = psutil.cpu_percent() # Mäter cpu användning
+        self.memory = psutil.virtual_memory().percent # Mäter minne användning i procent
+        self.disk = psutil.disk_usage('/').percent # Mäter disk använding i procent
         print(f"---START MONITORING---")
-        time.sleep(2)
+        time.sleep(2) # Programmet pausas i 2 sekunder innan den går tillbaks till menyn
     
-    def display_usage(self):
+    def show_last_stats(self):
         console_clean()
-        print("--- Last Measured Usage ---")
-        print(f"CPU: {self.cpu}%")
-        print(f"Memory: {self.memory}%")
-        print(f"Disk: {self.disk}%")
+        print("--- Last Measured Stats ---")
+        print(f"CPU Usage: {self.cpu}%") 
+        print(f"Memory Usage: {self.memory}%")
+        print(f"Disk Usage: {self.disk}%")
 
 
 def console_clean():
-    """Clears the console screen."""
+    # Rensar konsollen  
     os.system('cls' if os.name=='nt' else 'clear')

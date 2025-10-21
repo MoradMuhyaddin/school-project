@@ -14,23 +14,26 @@ def main():
 
         valid_choice = False
         while not valid_choice:
-            Funktions.console_clean()
-            func.menu_choice()
+            Funktions.console_clean() 
+            # Kallar console_clean från Funktions.py
+            func.menu_choices() 
+            # Kallar på menyn från Class_funktions klassen
             choice = input("Choose between (1-6): ")
             match choice:
                 case "1":
                     func.start_monitoring()
                     valid_choice = True
                 case "2":
-                    func.list_alarms()
+                    func.show_last_stats()
                     input("Press Enter to continue...")
                     valid_choice = True
                 case "3":
-                    Alarms.create_alarm() # Kallar på create_alarm funktionen i Alarm.py filen
+                    Alarms.create_alarm() 
+                    # Kallar på create_alarm funktionen i Alarm.py
                     input("Press Enter to continue...")
                     valid_choice = True
                 case "4":
-                    Alarms.show_alarms() # Kallar på show_alarm funktionen i Alarm.py filen
+                    Alarms.show_alarms() # Kallar på show_alarm funktionen i Alarm.py
                     input("Press Enter to continue...")
                     valid_choice = True
                 case "5":

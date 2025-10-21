@@ -59,5 +59,3 @@ def show_alarms():
             has_alarms = True
     if not has_alarms:
         print("No alarms have been set.")
-
-# ...existing code...
