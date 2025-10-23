@@ -40,7 +40,7 @@ def create_alarm():
             while True:
                 alarm_func.console_clean()
                 level_input = input(f"Set alarm level for {hardware.upper()} (1-100%): ")
-                if level_input.isdigit() and 1 <= int(level_input) <= 100:
+                if level_input.isdigit() and 1 <= int(level_input) <= 100: # Om input är mellan 1-100
                     level = int(level_input) 
                     alarms[hardware].append(level) # Lägger till nytt larm till listan
                     print(f"Alarm for {hardware} set to {level}%.")
@@ -69,3 +69,18 @@ def start_monitoring_alarms():
         print("--- SHOWING ALARMS ---")
         alarm_func.start_monitoring()
         time.sleep(0.5)
+        for hardware, levels in alarms.items():
+            current_usage = 0
+            if hardware == "CPU":
+                current_usage = psutil.cpu_percent(interval=1)
+            elif hardware == "RAM":
+                current_usage = psutil.virtual_memory().percent
+            elif hardware == "Disk":
+                current_usage = psutil.disk_usage('/').percent
+
+            for level in levels:
+                if current_usage >= level:
+                    print(f"ALARM! {hardware} usage is at {current_usage}%, which exceeds the set alarm level of {level}%!")
+                    alarm(1) # Väntar 1 sekund innan alarmet går igång
+        print("Press Ctrl+C to stop monitoring alarms.")
+        time.sleep(5)  # Väntar 5 sekunder innan nästa mätning
