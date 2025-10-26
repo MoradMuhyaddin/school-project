@@ -56,31 +56,37 @@ def create_alarm():
 def show_alarms():
     alarm_func.console_clean()
     print("--- SHOWING ALARMS ---")
-    for hardware, level in alarms.items():
-        if level:
-            for index in sorted(level):
+
+    for hardware, levels in alarms.items():
+        if not alarms[hardware]:
+            print(f"No alarms set for {hardware}.")
+        elif levels:
+            for index in sorted(levels):
                 print(f"{hardware.capitalize()}: {index}%")
-    else:
-        print("No alarms have been set.")
 
 def start_monitoring_alarms():
-    while True:
-        alarm_func.console_clean()
-        print("--- SHOWING ALARMS ---")
-        alarm_func.start_monitoring()
-        time.sleep(0.5)
-        for hardware, levels in alarms.items():
-            current_usage = 0
-            if hardware == "CPU":
-                current_usage = psutil.cpu_percent(interval=1)
-            elif hardware == "RAM":
-                current_usage = psutil.virtual_memory().percent
-            elif hardware == "Disk":
-                current_usage = psutil.disk_usage('/').percent
+    try:
+        while True:
+            alarm_func.console_clean()
+            print("--- MONITORING ALARMS ---")
+            alarm_func.start_monitoring()
+            time.sleep(1) # Väntar 1 sekund för att få korrekta mätningar
+            for hardware, levels in alarms.items():
+                current_usage = 0
+                if hardware == "CPU":
+                    current_usage = alarm_func.cpu
+                elif hardware == "RAM":
+                    current_usage = alarm_func.memory
+                elif hardware == "Disk":
+                    current_usage = alarm_func.disk
+    
+                for level in levels:
+                    if current_usage >= level:
+                        print(f"\nALARM! {hardware} usage is at {current_usage}%, which exceeds the set alarm level of {level}%!")
+                        alarm(1) # Väntar 1 sekund innan alarmet går igång
 
-            for level in levels:
-                if current_usage >= level:
-                    print(f"ALARM! {hardware} usage is at {current_usage}%, which exceeds the set alarm level of {level}%!")
-                    alarm(1) # Väntar 1 sekund innan alarmet går igång
-        print("Press Ctrl+C to stop monitoring alarms.")
-        time.sleep(5)  # Väntar 5 sekunder innan nästa mätning
+            print("\nPress Ctrl+C to return to the main menu.")
+            time.sleep(5)  # Väntar 5 sekunder innan nästa mätning
+    except KeyboardInterrupt:
+        print("\nStopping alarm monitoring and returning to main menu...")
+        time.sleep(1)
