@@ -2,9 +2,7 @@
 import time
 import psutil
 #import winsound  # Works on Windows only
-from Funktions import *
-
-alarm_func = Class_funktions()
+from Functions import *
 
 def alarm(delay_seconds):
     time.sleep(delay_seconds)
@@ -19,7 +17,7 @@ alarms = {
 def create_alarm():
     global alarms
     while True:
-        alarm_func.console_clean()
+        func.console_clean()
         print("--- CREATE ALARM ---")
         print("1. CPU usage")
         print("2. Memory usage")
@@ -38,7 +36,7 @@ def create_alarm():
             hardware = hardware_map[choice]
 
             while True:
-                alarm_func.console_clean()
+                func.console_clean()
                 level_input = input(f"Set alarm level for {hardware.upper()} (1-100%): ")
                 if level_input.isdigit() and 1 <= int(level_input) <= 100: # Om input är mellan 1-100
                     level = int(level_input) 
@@ -54,7 +52,7 @@ def create_alarm():
             time.sleep(1)
 
 def show_alarms():
-    alarm_func.console_clean()
+    func.console_clean()
     print("--- SHOWING ALARMS ---")
 
     for hardware, levels in alarms.items():
@@ -67,18 +65,18 @@ def show_alarms():
 def start_monitoring_alarms():
     try:
         while True:
-            alarm_func.console_clean()
+            func.console_clean()
             print("--- MONITORING ALARMS ---")
-            alarm_func.start_monitoring()
+            func.start_monitoring()
             time.sleep(1) # Väntar 1 sekund för att få korrekta mätningar
             for hardware, levels in alarms.items():
                 current_usage = 0
                 if hardware == "CPU":
-                    current_usage = alarm_func.cpu
+                    current_usage = func.cpu
                 elif hardware == "RAM":
-                    current_usage = alarm_func.memory
+                    current_usage = func.memory
                 elif hardware == "Disk":
-                    current_usage = alarm_func.disk
+                    current_usage = func.disk
     
                 for level in levels:
                     if current_usage >= level:

@@ -1,0 +1,82 @@
+        Dokumentationsfil för projektet.
+
+Moduler som användes:
+- time - För tidsrelaterade funktioner.
+- psutil - För att hämta systeminformation.
+- os - För att rensa konsolen.
+- datetime - För att visa datum och tid.
+
+
+Jag delade upp koden i 3 filer för bättre organisation:
+1. main.py - Huvudfilen som kör programmet.
+2. Functions.py - Innehåller funktioner som används i programmet.
+3. Alarms.py - Innehåller funktioner relaterade till larmhantering.
+
+Jag började med funktionerna i Functions.py, där jag började med första menyn och lade till menyvalen 1 - 6.
+
+Men innan det så behövde jag 3 tomma variabler för att lagra systemstatistik: 
+cpu_usage = 0
+memory_usage = 0
+disk_usage = 0
+
+Efter det skapade jag funktionen start_monitoring() som hanterar systemövervakningen. 
+Denna funktion använder en while-loop för att kontinuerligt hämta och visa systeminformation som CPU-användning, 
+minnesanvändning och diskaktivitet med hjälp av psutil-biblioteket.
+Jag använde också datetime för att visa aktuell tid för varje uppdatering.
+Jag lade också till en paus på 2 sekunder mellan varje uppdatering för att göra det mer läsbart.
+
+Fastän att den visar statsen efter menyval 1,
+så lade jag till en seperat funktion show_last_stats() 
+för att visa den senaste statistiken när användaren väljer menyval 2.
+Jag gjorde detta med en if-sats för att skriva ut 
+("No stats have been measured yet. Please start monitoring first.") om användaren väljer menyval 2 innan menyval 1 har körts.
+
+Jag kom på sedan att vi har krav på att använda minst 1 klass i vårt projekt,
+så jag skapade en klass i Functions.py som heter Class_functions,
+ som jag använde för att skapa en instans av den i main.py.
+Denna klass innehåller metoder för att visa menyn och hantera användarens val.
+
+Jag fick hjälp av en klasskamrat för att göra programmet mer användarvänligt,
+genom att lägga till en funktion clear_console() som rensar konsolen varje gång menyn visas,
+så att användaren alltid ser en ren meny utan tidigare utskrifter.
+
+Jag skapade i slutet en instans för Class_functions klassen som jag kallade func,
+så att jag kunde använda dess metoder i main.py och Alarms.py filerna.
+
+Jag gick vidare till alarms.py filen för att börja så skapade jag en dictionary som heter alarms.
+I alarms så lagrar jag larmen som användaren skapar i en lista för varje hårdvarutyp 
+(CPU, RAM, Disk).
+
+Jag gjorde sedan en import av Functions.py filen i Alarms.py filen, och använde func instansen från Functions.py filen,
+för att kunna använda dess funktioner i Alarms.py filen.
+Jag skapade sedan funktionen create_alarm() som hanterar skapandet av larm.
+Denna funktion visar en sub-meny där användaren kan välja vilken typ av larm de vill skapa.
+Beroende på användarens val, så frågar funktionen efter en larmnivå (1-100%) och
+lägger till den i alarms-dictionaryn.
+Jag lade till validering för att säkerställa att användaren anger en giltig nivå.
+
+Jag skapade också funktionen show_alarms() som visar alla skapade larm för varje hårdvarutyp.
+Denna funktion itererar genom alarms-dictionaryn och skriver ut varje hårdvarutyp,
+och dess tillhörande larmnivåer.
+
+Slutligen skapade jag funktionen monitor_alarms() som kontinuerligt övervakar systemets hårdvaruanvändning.
+Denna funktion använder en while-loop för att hämta aktuell användning av CPU, minne och disk.
+Den jämför sedan den aktuella användningen med de skapade larmnivåerna,
+och om någon nivå överskrids, så skriver den ut en varning till användaren.
+Jag lade till en paus på 1 sekund mellan varje övervakningscykel för att få uppdaterade mätningar.
+
+Jag lade monitor_alarms() i en try-except block för att kunna hantera KeyboardInterrupt undantaget,
+så att användaren kan avbryta övervakningen genom att trycka på Ctrl+C och 
+återvända till huvudmenyn utan att programmet kraschar.
+
+I main.py filen så importerade jag Alarms.py filen och Functions.py filen.
+Jag skapade funktionen main() som är programmets huvudfunktion.
+Innanför main() skapade jag en boolean app_is_running som håller programmet igång tills användaren väljer att avsluta.
+Inuti while-loopen så visar jag menyn med hjälp av func.show_menu() metoden från Class_functions klassen.
+Jag hanterar sedan användarens val med en match-case struktur,
+där varje menyval anropar motsvarande funktion från Functions.py eller Alarms.py filerna.
+Jag lade till input("Press Enter to continue...") efter varje menyval,
+för att ge användaren tid att läsa utskrifterna innan menyn visas igen.
+
+Jag avslutade programmet med att anropa main() funktionen i slutet av main.py filen, 
+så att programmet startar när filen körs.

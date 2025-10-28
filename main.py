@@ -4,7 +4,7 @@ import os
 #import winsound  # Works on Windows only
 
 import Alarms
-from Funktions import *
+from Functions import *
 
 def main():
     
